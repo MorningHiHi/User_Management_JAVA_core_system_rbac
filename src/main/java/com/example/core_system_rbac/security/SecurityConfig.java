@@ -45,9 +45,9 @@ public class SecurityConfig {
                                 "/configuration/ui",
                                 "/configuration/security",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                "/ws-notifications/**"
                         ).permitAll()
-
                         // Mở cửa cho các request "pre-flight" của trình duyệt (Lỗi CORS)
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
 

@@ -9,6 +9,7 @@ import com.example.core_system_rbac.entities.RefreshToken;
 import com.example.core_system_rbac.entities.User;
 import com.example.core_system_rbac.exceptions.TokenRefreshException;
 import com.example.core_system_rbac.repositories.IUserRepository;
+import com.example.core_system_rbac.services.NotificationService;
 import com.example.core_system_rbac.services.RefreshTokenService;
 import com.example.core_system_rbac.services.UserService;
 import com.example.core_system_rbac.utils.JwtUtils;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,6 +40,9 @@ public class AuthController {
     UserService userService;
     RefreshTokenService refreshTokenService;
     IUserRepository userRepository; // Cần dùng để lấy ID user tạo Refresh Token
+
+    @Autowired
+    private NotificationService notificationService;
 
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@Valid @RequestBody UserCreateRequest request) {
@@ -66,7 +71,7 @@ public class AuthController {
                 .type("Bearer")
                 .user(userResponse)
                 .build();
-
+        notificationService.notifyAdmin(userDetails.getUsername());
         return ResponseEntity.ok(authResponse);
     }
 
