@@ -1,11 +1,13 @@
 package com.example.core_system_rbac.security;
 
+import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebSecurity
@@ -29,9 +32,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
+
+                        .requestMatchers("/","/home" ,"/index.html", "/css/**", "/js/**", "/images/**", "/static/**").permitAll()
 
                         // ĐẢM BẢO DÒNG NÀY KHỚP VỚI @RequestMapping CỦA AuthController
                         .requestMatchers("/api/v1/auth/**").permitAll()
@@ -49,8 +57,7 @@ public class SecurityConfig {
                                 "/ws-notifications/**"
                         ).permitAll()
                         // Mở cửa cho các request "pre-flight" của trình duyệt (Lỗi CORS)
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
-
+                        //.requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         // Tất cả API còn lại phải xác thực
                         .anyRequest().authenticated()
                 )
