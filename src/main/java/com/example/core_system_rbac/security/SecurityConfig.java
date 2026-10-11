@@ -39,7 +39,7 @@ public class SecurityConfig {
 
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 
-                        .requestMatchers("/","/home" ,"/index.html", "/css/**", "/js/**", "/images/**", "/static/**").permitAll()
+                        .requestMatchers("/","/home","/homedynamic" ,"/index.html", "/css/**", "/js/**", "/images/**", "/static/**","/error").permitAll()
 
                         // ĐẢM BẢO DÒNG NÀY KHỚP VỚI @RequestMapping CỦA AuthController
                         .requestMatchers("/api/v1/auth/**").permitAll()
