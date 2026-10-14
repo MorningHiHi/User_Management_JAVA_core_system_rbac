@@ -17,5 +17,18 @@
         <td th:text="${p.price}"></td>
     </tr>
 </table>
+
+<h2>Add a product</h2>
+<form action="/products" method="post">
+    Name: <input
+            type="text"
+            name="name"><br />
+    Price: <input
+            type="number"
+            step="any"
+            name="price"><br />
+    <button type="submit">Add product</button>
+</form>
+
 </body>
 </html>
