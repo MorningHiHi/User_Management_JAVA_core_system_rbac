@@ -1,6 +1,6 @@
 package com.example.core_system_rbac.controllers;
 
-import com.example.core_system_rbac.dtos.response.AuthResponse;
+import com.example.core_system_rbac.services.LoggedUserManagementService;
 import com.example.core_system_rbac.services.LoginProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
+    private final LoginProcessor loginProcessor;
 
-    LoginProcessor loginProcessor = new LoginProcessor();
-
-    @GetMapping("/login")
+    // Spring IoC sẽ tự động inject LoginProcessor vào Controller
+    public LoginController(LoginProcessor loginProcessor) {
+        this.loginProcessor = loginProcessor;
+    }
+    @GetMapping("/")
     public String loginGet() {
         return "login.html";
     }
@@ -23,11 +26,13 @@ public class LoginController {
         loginProcessor.setUsername(username);
         loginProcessor.setPassword(password);
         boolean vali= loginProcessor.login();
+
         if (vali) {
-            model.addAttribute("message", "ok sang oi");
-        } else {
-            model.addAttribute("message", "chua duoc roi!!");
+            return "redirect:/main";
         }
+
+        model.addAttribute("message", "Login failed!");
         return "login.html";
     }
+
 }
