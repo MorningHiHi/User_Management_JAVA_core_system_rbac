@@ -1,5 +1,7 @@
 package com.example.core_system_rbac.exceptions;
 
+import com.example.core_system_rbac.controllers.NotEnoughMoneyException;
+import com.example.core_system_rbac.entities.ErrorDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -155,5 +157,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
-    // Bạn có thể viết thêm các @ExceptionHandler khác cho các loại lỗi khác...
+    @ExceptionHandler(NotEnoughMoneyException.class)
+    public ResponseEntity<ErrorDetails> exceptionNotEnoughMoneyHandler() {
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setMessage("Not enough money to make the payment.");
+        return ResponseEntity
+                .badRequest()
+                .body(errorDetails);
+    }
+
+        // Bạn có thể viết thêm các @ExceptionHandler khác cho các loại lỗi khác...
 }
