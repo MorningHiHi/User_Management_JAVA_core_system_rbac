@@ -19,9 +19,9 @@ public class GoldPriceController {
 
     @PostMapping("/goldprice")
     public GoldPriceDetails createPayment(
-            @RequestBody GoldPriceDetails goldPrice
+            //@RequestBody GoldPriceDetails goldPrice
     ) {
         String requestId = UUID.randomUUID().toString();
-        return goldPriceProxy.createGoldPrice(requestId, goldPrice);
+        return goldPriceProxy.createGoldPrice(requestId);
     }
 }
