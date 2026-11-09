@@ -1,7 +1,7 @@
 package com.example.core_system_rbac.controllers;
 
 import com.example.core_system_rbac.client.GoldPriceProxy;
-import com.example.core_system_rbac.entities.GoldPriceDetails;
+import com.example.core_system_rbac.entities.GoldPriceList;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +18,10 @@ public class GoldPriceController {
     }
 
     @PostMapping("/goldprice")
-    public GoldPriceDetails createPayment(
-            //@RequestBody GoldPriceDetails goldPrice
+    public GoldPriceList createPayment(
+            //@RequestBody GoldPriceList goldPrice
     ) {
-        String requestId = UUID.randomUUID().toString();
-        return goldPriceProxy.createGoldPrice(requestId);
+        //String requestId = UUID.randomUUID().toString();
+        return goldPriceProxy.createGoldPrice("XAU-USD-SPOT");
     }
 }

@@ -1,18 +1,15 @@
 package com.example.core_system_rbac.client;
 
-import com.example.core_system_rbac.entities.GoldPriceDetails;
+import com.example.core_system_rbac.entities.GoldPriceList;
 import com.example.core_system_rbac.entities.PaymentDetails;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "goldprice",
         url = "${name.service.url}")
 public interface GoldPriceProxy {
-    @GetMapping("/prices")
-    GoldPriceDetails createGoldPrice(
-            @RequestHeader String requestId);
-            //@RequestBody GoldPriceDetails goldPrice);
+    @GetMapping("/v1/prices")
+    GoldPriceList createGoldPrice(
+            @RequestParam String symbol);
+            //@RequestBody GoldPriceList goldPrice);
 }
